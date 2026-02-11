@@ -3,8 +3,9 @@ import random
 
 app = Flask(__name__)
 
-# Example: 1000 placeholder facts about Alliance Française Bahrain
-FACTS = [f"Fact #{i+1}: Alliance Française Bahrain fun fact placeholder." for i in range(1000)]
+# Load 1000 facts from the text file
+with open("alliance_francaise_facts.txt", "r", encoding="utf-8") as f:
+    FACTS = [line.strip() for line in f.readlines()]
 
 @app.route("/")
 def index():
@@ -15,26 +16,11 @@ def index():
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>🎓 Alliance Française Bahrain Facts 🎓</title>
     <style>
-        body {
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, Arial;
-            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-            text-align: center;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            font-size: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: opacity 0.4s ease;
-            max-width: 90%;
-        }
+        body { height:100vh; margin:0; display:flex; justify-content:center; align-items:center;
+               font-family:-apple-system, BlinkMacSystemFont, Arial; background:linear-gradient(135deg,#a1c4fd,#c2e9fb);
+               text-align:center; padding:20px; }
+        .card { background:white; padding:30px; border-radius:18px; font-size:20px;
+                box-shadow:0 10px 30px rgba(0,0,0,0.2); transition:opacity 0.4s ease; max-width:90%; }
     </style>
 </head>
 <body>
@@ -47,15 +33,9 @@ def index():
                 const data = await res.json();
                 const el = document.getElementById("fact");
                 el.style.opacity = 0;
-                setTimeout(() => {
-                    el.textContent = data.fact;
-                    el.style.opacity = 1;
-                }, 200);
-            } catch (e) {
-                console.error(e);
-            }
+                setTimeout(() => { el.textContent = data.fact; el.style.opacity = 1; }, 200);
+            } catch(e){ console.error(e); }
         }
-
         loadFact();
         setInterval(loadFact, 5000); // change every 5 seconds
     </script>
