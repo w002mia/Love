@@ -3,16 +3,8 @@ import random
 
 app = Flask(__name__)
 
-LOVE_MESSAGES = [
-    "You make the world better just by being here 💖",
-    "Someone smiled today because of you 😊",
-    "You are deeply appreciated 🌷",
-    "You matter more than you think ❤️",
-    "Your presence brings warmth ☀️",
-    "You’re doing great, even on hard days 🌱",
-    "You are enough, exactly as you are ✨",
-    "You bring good energy wherever you go 🌈"
-]
+# Example: 1000 placeholder facts about Alliance Française Bahrain
+FACTS = [f"Fact #{i+1}: Alliance Française Bahrain fun fact placeholder." for i in range(1000)]
 
 @app.route("/")
 def index():
@@ -21,7 +13,7 @@ def index():
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>💖 Random Love Messages 💖</title>
+    <title>🎓 Alliance Française Bahrain Facts 🎓</title>
     <style>
         body {
             height: 100vh;
@@ -30,7 +22,7 @@ def index():
             justify-content: center;
             align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, Arial;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
             text-align: center;
             padding: 20px;
         }
@@ -38,7 +30,7 @@ def index():
             background: white;
             padding: 30px;
             border-radius: 18px;
-            font-size: 22px;
+            font-size: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: opacity 0.4s ease;
             max-width: 90%;
@@ -46,17 +38,17 @@ def index():
     </style>
 </head>
 <body>
-    <div class="card" id="message">Loading love… 💕</div>
+    <div class="card" id="fact">Loading facts… 📚</div>
 
     <script>
-        async function loadMessage() {
+        async function loadFact() {
             try {
-                const res = await fetch("/message", { cache: "no-store" });
+                const res = await fetch("/fact", { cache: "no-store" });
                 const data = await res.json();
-                const el = document.getElementById("message");
+                const el = document.getElementById("fact");
                 el.style.opacity = 0;
                 setTimeout(() => {
-                    el.textContent = data.message;
+                    el.textContent = data.fact;
                     el.style.opacity = 1;
                 }, 200);
             } catch (e) {
@@ -64,20 +56,20 @@ def index():
             }
         }
 
-        loadMessage();
-        setInterval(loadMessage, 5000); // change every 5 seconds
+        loadFact();
+        setInterval(loadFact, 5000); // change every 5 seconds
     </script>
 </body>
 </html>
 """
     return render_template_string(html)
 
-@app.route("/message")
-def message():
+@app.route("/fact")
+def fact():
     return jsonify({
-        "message": random.choice(LOVE_MESSAGES)
+        "fact": random.choice(FACTS)
     })
 
 if __name__ == "__main__":
-    # Fly.io internal port must be 8080
+    # Fly.io internal port
     app.run(host="0.0.0.0", port=8080)
